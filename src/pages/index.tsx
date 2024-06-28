@@ -1,9 +1,10 @@
+import Link from "next/link";
 
 
 export default function Home() {
   return (
     <main>
-      <a href="/api/auth/login">Login</a>
+      <Link href="/api/auth/login">Login</Link>
     </main>
   );
 }
