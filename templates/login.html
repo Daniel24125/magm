@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login into MAGM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+        *{
+            padding: 0; 
+            margin: 0; 
+            overflow: hidden;
+            font-family: "Inter", sans-serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+            font-variation-settings: "slnt" 0;
+            color: #16161D
+        }
+        .flexHor{
+            display: flex;
+        }
+        .flexVer{
+            display: flex;
+            flex-direction: column;
+        }
+        .centerCenter{
+            align-items: center;
+            justify-content: center;
+        }
+        .videoContainer{
+            width: 50vw; 
+            height: 100vh; 
+        }
+        video{
+            width: 100%; 
+        }
+
+        .formContainer{
+            width: 50vw; 
+            align-items: center;
+            justify-content: center;
+        }
+        .title{
+            font-size: xx-large;
+        }
+        .textFaint{
+            color: #00000080
+        }
+        .caption{
+            font-size: 12px;
+        }
+        .underline{
+            text-decoration: underline
+        }
+        .mb-5{
+            margin-bottom: 5px;
+        }
+        .mb-10{
+            margin-bottom: 10px;
+        }
+        .mb-25{
+            margin-bottom: 25px;
+        }
+        .mb-15{
+            margin-bottom: 15px;
+        }
+        .mr-10{
+            margin-right: 10px
+        }
+        button{
+            width: clamp(320px,100%, 350px); 
+            padding: 10px; 
+            background: none; 
+            border-radius: 5px;
+            border-width: 1px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .bg-primary{
+            background-color: #3EAF3F;
+            color: white
+        }
+        .b-none{
+            border: none;
+        }
+        input{
+            width: calc(clamp(320px,100%, 350px) - 36px); 
+            padding: 12px 16px; 
+            outline: none;
+            border: 1px solid #CBD5E1; 
+            border-radius: 5px; 
+            color: #0F172A
+        }
+        input::placeholder{
+            color: #0F172A
+        }
+        .divider{
+            position: relative;
+            width: clamp(320px,100%, 350px); 
+            text-align: center;
+        }
+        .divider:before{
+            content: "";
+            display: block;
+            width: 90px;
+            height: 1px;
+            background: #00000044;
+            left: 0;
+            top: 50%;
+            position: absolute;
+        }
+        .divider:after{
+            content: "";
+            display: block;
+            width: 90px;
+            height: 1px;
+            background: #00000044;
+            right: 0;
+            top: 50%;
+            position: absolute;
+        }
+    </style>
+</head>
+<body class="flexHor">
+    <div class="videoContainer">
+        <video autoplay muted>
+            <source id="video" src="https://res.cloudinary.com/dcp3h85ie/video/upload/v1719765588/18749462-uhd_2160_3840_60fps_xngqt8.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+    </div>
+    <div class="flexVer formContainer">
+        <h1 class="title mb-10">Login into your account</h1>
+        <span class="caption mb-25 textFaint">Enter your email and password to access the MAGM platform </span>
+        <input id="" placeholder="First Name" class="mb-15"/>
+        <input id="" placeholder="Last Name" class="mb-15"/>
+        <input id="" placeholder="Email" class="mb-15"/>
+        <input id="" placeholder="Password" class="mb-15"/>
+        <button class="mb-5 bg-primary b-none">Login</button>
+        <h6 class="mb-25 underline">Forgot your password?</h6>
+        
+        <span class="textFaint mb-25 divider">OR CONTINUE WITH</span>
+        
+        <button class="mb-15 flexHor centerCenter ">
+            <svg class="mr-10" width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_51_450)">
+                <path d="M16.992 9.16838C16.992 8.43093 16.9342 7.89279 16.809 7.33472H8.66943V10.6632H13.4472C13.3509 11.4904 12.8307 12.7361 11.6748 13.5732L11.6586 13.6846L14.2322 15.7472L14.4105 15.7657C16.048 14.201 16.992 11.899 16.992 9.16838Z" fill="black"/>
+                <path d="M8.66943 17.9382C11.0101 17.9382 12.9751 17.1409 14.4105 15.7657L11.6748 13.5732C10.9427 14.1014 9.96017 14.4701 8.66943 14.4701C6.37689 14.4701 4.43112 12.9055 3.73751 10.743L3.63584 10.7519L0.959801 12.8945L0.924805 12.9952C2.35041 15.9251 5.27873 17.9382 8.66943 17.9382Z" fill="black"/>
+                <path d="M3.73741 10.743C3.55439 10.1849 3.44848 9.58692 3.44848 8.96908C3.44848 8.35117 3.55439 7.75325 3.72778 7.19519L3.72293 7.07633L1.01336 4.89929L0.924707 4.94292C0.337145 6.15874 0 7.52406 0 8.96908C0 10.4141 0.337145 11.7793 0.924707 12.9952L3.73741 10.743Z" fill="black"/>
+                <path d="M8.66943 3.46802C10.2973 3.46802 11.3954 4.19551 12.0216 4.80346L14.4682 2.33196C12.9656 0.886946 11.0101 0 8.66943 0C5.27873 0 2.35041 2.01305 0.924805 4.94292L3.72788 7.19519C4.43112 5.03265 6.37689 3.46802 8.66943 3.46802Z" fill="black"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_51_450">
+                <rect width="17" height="18" fill="white"/>
+                </clipPath>
+                </defs>
+            </svg>    
+            Continue with Google
+        </button>
+        <button class="mb-15 flexHor centerCenter ">
+            <svg class="mr-10" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_51_467)">
+                <path d="M-0.0776367 1.93601C-0.0776367 1.40267 0.103373 0.962675 0.465394 0.616008C0.827414 0.269342 1.29804 0.0960083 1.87727 0.0960083C2.44616 0.0960083 2.90644 0.266675 3.25812 0.608008C3.62014 0.960008 3.80115 1.41867 3.80115 1.98401C3.80115 2.49601 3.62531 2.92267 3.27364 3.26401C2.91162 3.61601 2.43582 3.79201 1.84624 3.79201H1.83073C1.26184 3.79201 0.801555 3.61601 0.449878 3.26401C0.0982016 2.91201 -0.0776367 2.46934 -0.0776367 1.93601ZM0.12406 15.936V5.24801H3.56842V15.936H0.12406ZM5.47679 15.936H8.92115V9.96801C8.92115 9.59468 8.96252 9.30667 9.04527 9.10401C9.19008 8.74134 9.40988 8.43468 9.70467 8.18401C9.99945 7.93334 10.3692 7.80801 10.814 7.80801C11.9725 7.80801 12.5517 8.61334 12.5517 10.224V15.936H15.9961V9.80801C15.9961 8.22934 15.634 7.03201 14.91 6.21601C14.186 5.40001 13.2292 4.99201 12.0397 4.99201C10.7054 4.99201 9.66588 5.58401 8.92115 6.76801V6.80001H8.90563L8.92115 6.76801V5.24801H5.47679C5.49747 5.58934 5.50782 6.65068 5.50782 8.43201C5.50782 10.2133 5.49747 12.7147 5.47679 15.936Z" fill="black"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_51_467">
+                <rect width="16" height="16" fill="white"/>
+                </clipPath>
+                </defs>
+            </svg>    
+            Continue with Linkedin
+        </button>
+    </div>
+
+    <script>
+        let possibleVideoLinks = [
+            "https://res.cloudinary.com/dcp3h85ie/video/upload/v1719765588/18749462-uhd_2160_3840_60fps_xngqt8.mp4", 
+            "https://res.cloudinary.com/dcp3h85ie/video/upload/v1719765568/18749457-hd_1080_1920_60fps_my6wnc.mp4", 
+            // "https://res.cloudinary.com/dcp3h85ie/video/upload/v1719765575/V%C3%ADdeo_sem_t%C3%ADtulo_-_Feito_com_Clipchamp_b2dqwg.mp4",
+            "https://res.cloudinary.com/dcp3h85ie/video/upload/v1719765582/4427479-hd_1080_1920_30fps_vyufj3.mp4"
+        ]
+        document.addEventListener("DOMContentLoaded", ()=>{
+            let videoIndex = (Math.random()*possibleVideoLinks.length).toFixed(0);
+            let videoSource = document.getElementById("video")
+            videoSource.src = possibleVideoLinks[videoIndex]
+        })
+    </script>
+</body>
+</html>
