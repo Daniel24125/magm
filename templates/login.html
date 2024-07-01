@@ -173,6 +173,39 @@
             top: 50%;
             position: absolute;
         }
+
+        .pointer{
+            cursor: pointer;
+        }
+
+        .errorInput{
+            border-color: #E14942; 
+           
+        }
+
+        .errorInput::placeholder{
+            color: #E14942;
+        }
+
+        .errorMessage{
+            color: #E14942; 
+            font-weight: 400; 
+            width: clamp(320px,100%, 350px); 
+            height: 0;
+            transition: all 300ms ease; 
+            visibility: hidden;
+            position: absolute
+        }
+
+        .showError{
+            height: 13px; 
+            visibility: visible;
+            position: relative;
+            margin-left: 5px
+        }
+     
+
+
     </style>
 </head>
 <body class="flexHor">
@@ -193,16 +226,17 @@
     <div class="flexVer formContainer">
         <h1 class="title mb-10">Login into your account</h1>
         <span class="caption mb-25 textFaint">Enter your email and password to access the MAGM platform </span>
-        <input onkeyup="onInputChange(this.value)" id="fName" placeholder="First Name" class="mb-15"/>
-        <input onkeyup="onInputChange(this.value)" id="lName" placeholder="Last Name" class="mb-15"/>
-        <input onkeyup="onInputChange(this.value)" id="email" type="email" placeholder="Email" class="mb-15"/>
-        <input onkeyup="onInputChange(this.value)" id="password" type="password" placeholder="Password" class="mb-15"/>
-        <button class="mb-5 bg-primary b-none">Login</button>
-        <h5 class="mb-25 underline">Forgot your password?</h5>
+        <input onkeypress="onInputChange(this)" required id="email" type="email" placeholder="Email" class="mb-15"/>
+        <h6 id="emailError" class="errorMessage mb-15">Please provide a valid email address!</h6>
+        <input onkeypress="onInputChange(this)" required id="password" type="password" placeholder="Password" class="mb-15"/>
+        <button class="mb-5 bg-primary b-none" onclick="onSubmit()">Login</button>
+        <a href="http://localhost:3000/passwordReset">
+            <h5 class="mb-25 underline pointer">Forgot your password?</h5>
+        </a>
         
         <span class="textFaint mb-25 divider">OR CONTINUE WITH</span>
         
-        <button class="mb-15 flexHor centerCenter ">
+        <button id="btn-google" class="mb-15 flexHor centerCenter ">
             <svg class="mr-10" width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_51_450)">
                 <path d="M16.992 9.16838C16.992 8.43093 16.9342 7.89279 16.809 7.33472H8.66943V10.6632H13.4472C13.3509 11.4904 12.8307 12.7361 11.6748 13.5732L11.6586 13.6846L14.2322 15.7472L14.4105 15.7657C16.048 14.201 16.992 11.899 16.992 9.16838Z" fill="black"/>
@@ -218,7 +252,9 @@
             </svg>    
             Continue with Google
         </button>
-        <button class="mb-15 flexHor centerCenter ">
+        <h6 id="errorMessage" class="errorMessage"></h6>
+        <div class="captcha-container"></div>
+        <!-- <button class="mb-15 flexHor centerCenter ">
             <svg class="mr-10" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_51_467)">
                 <path d="M-0.0776367 1.93601C-0.0776367 1.40267 0.103373 0.962675 0.465394 0.616008C0.827414 0.269342 1.29804 0.0960083 1.87727 0.0960083C2.44616 0.0960083 2.90644 0.266675 3.25812 0.608008C3.62014 0.960008 3.80115 1.41867 3.80115 1.98401C3.80115 2.49601 3.62531 2.92267 3.27364 3.26401C2.91162 3.61601 2.43582 3.79201 1.84624 3.79201H1.83073C1.26184 3.79201 0.801555 3.61601 0.449878 3.26401C0.0982016 2.91201 -0.0776367 2.46934 -0.0776367 1.93601ZM0.12406 15.936V5.24801H3.56842V15.936H0.12406ZM5.47679 15.936H8.92115V9.96801C8.92115 9.59468 8.96252 9.30667 9.04527 9.10401C9.19008 8.74134 9.40988 8.43468 9.70467 8.18401C9.99945 7.93334 10.3692 7.80801 10.814 7.80801C11.9725 7.80801 12.5517 8.61334 12.5517 10.224V15.936H15.9961V9.80801C15.9961 8.22934 15.634 7.03201 14.91 6.21601C14.186 5.40001 13.2292 4.99201 12.0397 4.99201C10.7054 4.99201 9.66588 5.58401 8.92115 6.76801V6.80001H8.90563L8.92115 6.76801V5.24801H5.47679C5.49747 5.58934 5.50782 6.65068 5.50782 8.43201C5.50782 10.2133 5.49747 12.7147 5.47679 15.936Z" fill="black"/>
@@ -230,10 +266,75 @@
                 </defs>
             </svg>    
             Continue with Linkedin
-        </button>
+        </button> -->
     </div>
 
     <script>
+        let inputs = document.querySelectorAll("[required]");
+        let errorMessage = document.getElementById("errorMessage")
+        let emailErrorMessage = document.getElementById("emailError")
+
+        // let captcha = webAuth.renderCaptcha(
+        //     document.querySelector('.captcha-container')
+        // );
+
+        function displayError(el,err) {
+            // captcha.reload();
+            el.classList.add("showError")
+            el.innerHTML = err.policy || err.description;
+        }
+		
+
+        const onInputChange = (el)=>{
+            inputs.forEach(field =>{
+                field.classList.remove("errorInput");
+            })
+            errorMessage.classList.remove("showError")
+            emailErrorMessage.classList.remove("showError")
+        }
+
+
+
+
+        const onSubmit = ()=>{
+            
+            let hasEmptyError = false;
+            let hasEmailError = false;
+
+            inputs.forEach(field =>{
+                const value = field.value;
+                if(value === ""){
+                    field.classList.add("errorInput");
+                    hasEmptyError = true;
+                }
+                if(field.id === "email" && !value.match("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.[a-zA-Z]{2,}$")){
+                    field.classList.add("errorInput");
+                    hasEmailError = true
+                }
+            })
+
+            if(hasEmptyError) {
+                displayError(errorMessage, {description:"Please fill out all the fields"});
+                return;
+            }
+
+            if(hasEmailError){
+                displayError(emailErrorMessage, {description:"Please provide a valid email address"});
+            }
+
+            webAuth.login({
+                realm: databaseConnection,
+                username: username,
+                password: password,
+                captcha: captcha.getValue()
+            }, function (err) {
+                if (err) displayError(err);
+                button.disabled = false;
+            });
+
+
+        }
+
         let possibleVideoLinks = [
             "https://res.cloudinary.com/dcp3h85ie/video/upload/v1719765588/18749462-uhd_2160_3840_60fps_xngqt8.mp4", 
             "https://res.cloudinary.com/dcp3h85ie/video/upload/v1719765568/18749457-hd_1080_1920_60fps_my6wnc.mp4", 
@@ -241,15 +342,51 @@
             "https://res.cloudinary.com/dcp3h85ie/video/upload/v1719765582/4427479-hd_1080_1920_30fps_vyufj3.mp4"
         ]
 
-        const onInputChange = (e) =>{
-            console.log(e)
-        }
-
         document.addEventListener("DOMContentLoaded", ()=>{
             let videoIndex = (Math.random()*possibleVideoLinks.length).toFixed(0);
             let videoSource = document.getElementById("video")
-            videoSource.src = possibleVideoLinks[videoIndex]
+            videoSource.src = possibleVideoLinks[videoIndex]          
         })
+
+        window.addEventListener('load', function () {
+            var config = JSON.parse(
+                decodeURIComponent(escape(window.atob('@@config@@')))
+            );
+
+            var leeway = config.internalOptions.leeway;
+            if (leeway) {
+                var convertedLeeway = parseInt(leeway);
+
+                if (!isNaN(convertedLeeway)) {
+                    config.internalOptions.leeway = convertedLeeway;
+                }
+            }
+
+            function loginWithGoogle() {
+                webAuth.authorize({
+                    connection: 'google-oauth2'
+                }, function(err) {
+                if (err) displayError(err);
+                });
+            }
+
+            var params = Object.assign({
+                overrides: {
+                    __tenant: config.auth0Tenant,
+                    __token_issuer: config.authorizationServer.issuer
+                },
+                domain: config.auth0Domain,
+                clientID: config.clientID,
+                redirectUri: config.callbackURL,
+                responseType: 'code'
+            }, config.internalOptions);
+
+            var webAuth = new auth0.WebAuth(params);
+            var databaseConnection = 'Username-Password-Authentication';
+
+            document.getElementById('btn-google').addEventListener('click', loginWithGoogle);
+        });
+
     </script>
 </body>
 </html>
