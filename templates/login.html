@@ -229,7 +229,7 @@
         <input onkeypress="onInputChange(this)" required id="email" type="email" placeholder="Email" class="mb-15"/>
         <h6 id="emailError" class="errorMessage mb-15">Please provide a valid email address!</h6>
         <input onkeypress="onInputChange(this)" required id="password" type="password" placeholder="Password" class="mb-15"/>
-        <button class="mb-5 bg-primary b-none" onclick="onSubmit()">Login</button>
+        <button id="btn-login" class="mb-5 bg-primary b-none">Login</button>
         <a href="http://localhost:3000/passwordReset">
             <h5 class="mb-25 underline pointer">Forgot your password?</h5>
         </a>
@@ -284,18 +284,37 @@
         let inputs = document.querySelectorAll("[required]");
         let errorMessage = document.getElementById("errorMessage")
         let emailErrorMessage = document.getElementById("emailError")
-
-        // let captcha = webAuth.renderCaptcha(
-        //     document.querySelector('.captcha-container')
-        // );
+        let possibleVideoLinks = [
+            "https://res.cloudinary.com/dcp3h85ie/video/upload/v1719765588/18749462-uhd_2160_3840_60fps_xngqt8.mp4", 
+            "https://res.cloudinary.com/dcp3h85ie/video/upload/v1719765568/18749457-hd_1080_1920_60fps_my6wnc.mp4", 
+            // "https://res.cloudinary.com/dcp3h85ie/video/upload/v1719765575/V%C3%ADdeo_sem_t%C3%ADtulo_-_Feito_com_Clipchamp_b2dqwg.mp4",
+            "https://res.cloudinary.com/dcp3h85ie/video/upload/v1719765582/4427479-hd_1080_1920_30fps_vyufj3.mp4"
+        ]
+        let videoIndex = (Math.random()*possibleVideoLinks.length).toFixed(0);
+        let videoSource = document.getElementById("video")
+      
+        let config = JSON.parse(
+                decodeURIComponent(escape(window.atob('@@config@@')))
+            );
+        let params = Object.assign({
+                overrides: {
+                    __tenant: config.auth0Tenant,
+                    __token_issuer: config.authorizationServer.issuer
+                },
+                domain: config.auth0Domain,
+                clientID: config.clientID,
+                redirectUri: config.callbackURL,
+                responseType: 'code'
+            }, config.internalOptions);
+        let webAuth = new auth0.WebAuth(params);
+        let databaseConnection = 'Username-Password-Authentication';
 
         function displayError(el,err) {
             // captcha.reload();
             el.classList.add("showError")
             el.innerHTML = err.policy || err.description;
         }
-		
-
+            
         const onInputChange = (el)=>{
             inputs.forEach(field =>{
                 field.classList.remove("errorInput");
@@ -303,12 +322,8 @@
             errorMessage.classList.remove("showError")
             emailErrorMessage.classList.remove("showError")
         }
-
-
-
-
+        
         const onSubmit = ()=>{
-            
             let hasEmptyError = false;
             let hasEmailError = false;
 
@@ -335,8 +350,8 @@
 
             webAuth.login({
                 realm: databaseConnection,
-                username: username,
-                password: password,
+                username: document.getElementById("email").value,
+                password: document.getElementById("password").value,
                 captcha: captcha.getValue()
             }, function (err) {
                 if (err) displayError(err);
@@ -346,24 +361,8 @@
 
         }
 
-        let possibleVideoLinks = [
-            "https://res.cloudinary.com/dcp3h85ie/video/upload/v1719765588/18749462-uhd_2160_3840_60fps_xngqt8.mp4", 
-            "https://res.cloudinary.com/dcp3h85ie/video/upload/v1719765568/18749457-hd_1080_1920_60fps_my6wnc.mp4", 
-            // "https://res.cloudinary.com/dcp3h85ie/video/upload/v1719765575/V%C3%ADdeo_sem_t%C3%ADtulo_-_Feito_com_Clipchamp_b2dqwg.mp4",
-            "https://res.cloudinary.com/dcp3h85ie/video/upload/v1719765582/4427479-hd_1080_1920_30fps_vyufj3.mp4"
-        ]
-
-        document.addEventListener("DOMContentLoaded", ()=>{
-            let videoIndex = (Math.random()*possibleVideoLinks.length).toFixed(0);
-            let videoSource = document.getElementById("video")
-            videoSource.src = possibleVideoLinks[videoIndex]          
-        })
-
         window.addEventListener('load', function () {
-            var config = JSON.parse(
-                decodeURIComponent(escape(window.atob('@@config@@')))
-            );
-
+            videoSource.src = possibleVideoLinks[videoIndex]     
             var leeway = config.internalOptions.leeway;
             if (leeway) {
                 var convertedLeeway = parseInt(leeway);
@@ -373,6 +372,11 @@
                 }
             }
 
+            let captcha = webAuth.renderCaptcha(
+                document.querySelector('.captcha-container')
+            );
+
+          
             function loginWithGoogle() {
                 webAuth.authorize({
                     connection: 'google-oauth2'
@@ -381,21 +385,9 @@
                 });
             }
 
-            var params = Object.assign({
-                overrides: {
-                    __tenant: config.auth0Tenant,
-                    __token_issuer: config.authorizationServer.issuer
-                },
-                domain: config.auth0Domain,
-                clientID: config.clientID,
-                redirectUri: config.callbackURL,
-                responseType: 'code'
-            }, config.internalOptions);
-
-            var webAuth = new auth0.WebAuth(params);
-            var databaseConnection = 'Username-Password-Authentication';
-
+            console.log(document.getElementById('btn-login'))
             document.getElementById('btn-google').addEventListener('click', loginWithGoogle);
+            document.getElementById('btn-login').addEventListener('click', onSubmit);
         });
 
     </script>
