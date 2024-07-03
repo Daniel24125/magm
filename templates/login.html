@@ -300,10 +300,7 @@
         ]
         let videoIndex = (Math.random()*possibleVideoLinks.length).toFixed(0);
         let videoSource = document.getElementById("video")
-      
-        let config = JSON.parse(
-                decodeURIComponent(escape(window.atob('@@config@@')))
-            );
+        let config = JSON.parse(decodeURIComponent(escape(window.atob('@@config@@'))));
         let params = Object.assign({
                 overrides: {
                     __tenant: config.auth0Tenant,
@@ -316,9 +313,8 @@
             }, config.internalOptions);
         let webAuth = new auth0.WebAuth(params);
         let databaseConnection = 'Username-Password-Authentication';
-        let captcha = webAuth.renderCaptcha(
-                document.querySelector('.captcha-container')
-            );
+        let captcha = webAuth.renderCaptcha(document.querySelector('.captcha-container'));
+
         function displayError(el,err) {
             // captcha.reload();
             el.classList.add("showError")
@@ -370,8 +366,17 @@
 
         }
 
+        function loginWithGoogle() {
+            webAuth.authorize({
+                connection: 'google-oauth2'
+            }, function(err) {
+            if (err) displayError(err);
+            });
+        }
+
         window.addEventListener('load', function () {
-            videoSource.src = possibleVideoLinks[videoIndex]     
+            videoSource.src = possibleVideoLinks[videoIndex] 
+            console.log(videoIndex)   
             var leeway = config.internalOptions.leeway;
             if (leeway) {
                 var convertedLeeway = parseInt(leeway);
@@ -379,17 +384,6 @@
                 if (!isNaN(convertedLeeway)) {
                     config.internalOptions.leeway = convertedLeeway;
                 }
-            }
-
-          
-
-          
-            function loginWithGoogle() {
-                webAuth.authorize({
-                    connection: 'google-oauth2'
-                }, function(err) {
-                if (err) displayError(err);
-                });
             }
 
             document.getElementById('btn-google').addEventListener('click', loginWithGoogle);
