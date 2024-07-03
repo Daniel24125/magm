@@ -308,7 +308,9 @@
             }, config.internalOptions);
         let webAuth = new auth0.WebAuth(params);
         let databaseConnection = 'Username-Password-Authentication';
-
+        let captcha = webAuth.renderCaptcha(
+                document.querySelector('.captcha-container')
+            );
         function displayError(el,err) {
             // captcha.reload();
             el.classList.add("showError")
@@ -372,9 +374,7 @@
                 }
             }
 
-            let captcha = webAuth.renderCaptcha(
-                document.querySelector('.captcha-container')
-            );
+          
 
           
             function loginWithGoogle() {
@@ -385,7 +385,6 @@
                 });
             }
 
-            console.log(document.getElementById('btn-login'))
             document.getElementById('btn-google').addEventListener('click', loginWithGoogle);
             document.getElementById('btn-login').addEventListener('click', onSubmit);
         });
