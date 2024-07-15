@@ -7,10 +7,15 @@ export type AccountSettingsSchema = {
 
 export type UserSchema = {
     fName: string | null, 
-    lName: string | null, 
     email: string | null, 
     isLoading: boolean, 
     projects: ProjectSchema[],
     defaultProjectSettings: ProjectSettingsSchema | null, 
     accountSettings: AccountSettingsSchema | null
+}
+
+export type UserSignupSchema = {
+    fName?: string, 
+    email?: string, 
+    password?: string, 
 }

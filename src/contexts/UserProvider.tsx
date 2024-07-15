@@ -7,12 +7,12 @@ const UserContextProvider = React.createContext<{
 }>({
     user: {
         isLoading: true, 
-    fName: null, 
-    lName: null, 
-    email: null, 
-    projects: [],
-    defaultProjectSettings: null,
-    accountSettings: null
+        fName: null, 
+        lName: null, 
+        email: null, 
+        projects: [],
+        defaultProjectSettings: null,
+        accountSettings: null
     }, 
     setUser: null
 })

@@ -22,6 +22,7 @@ const RootTemplate = ({
     if(router.asPath === "/signup") return children
 
     return <UserProvider>
+        
         {children}
     </UserProvider>
 }
