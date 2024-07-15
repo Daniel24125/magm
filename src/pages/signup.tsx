@@ -6,4 +6,9 @@ const Signup = () => {
   )
 }
 
+const VideoComponent = ()=>{
+  
+}
+
+
 export default Signup
