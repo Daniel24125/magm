@@ -1,3 +1,4 @@
+import { Document } from "mongoose"
 import { ProjectSchema, ProjectSettingsSchema } from "./Projects"
 
 export type AccountSettingsSchema = {
@@ -5,7 +6,7 @@ export type AccountSettingsSchema = {
     lName: string
 }
 
-export type UserSchema = {
+export interface IUserSchema extends Document {
     fName: string | null, 
     email: string | null, 
     isLoading: boolean, 

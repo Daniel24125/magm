@@ -1,9 +1,8 @@
 import React from 'react'
 import { useUser } from '@auth0/nextjs-auth0/client';
-import UserProvider from '@/contexts/UserProvider';
+import UserContext from '@/contexts/UserProvider';
 import { useRouter } from 'next/router'
 import { noRedirectURLs } from '../../../utils/utils';
-import Head from 'next/head';
 
 const RootTemplate = ({
     children
@@ -21,10 +20,10 @@ const RootTemplate = ({
     }
     if(router.asPath === "/signup") return children
 
-    return <UserProvider>
+    return <UserContext>
         
         {children}
-    </UserProvider>
+    </UserContext>
 }
 
 export default RootTemplate

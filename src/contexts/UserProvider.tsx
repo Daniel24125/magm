@@ -1,28 +1,22 @@
-import { UserSchema } from '@/types/User'
+import { IUserSchema } from '@/types/User'
+import { useUser } from '@auth0/nextjs-auth0/client'
 import React from 'react'
+import { useFetchData } from '../../utils/dataFetch'
 
 const UserContextProvider = React.createContext<{
-    user: UserSchema | null, 
+    user: IUserSchema | null, 
     setUser: any
-}>({
-    user: {
-        isLoading: true, 
-        fName: null, 
-        lName: null, 
-        email: null, 
-        projects: [],
-        defaultProjectSettings: null,
-        accountSettings: null
-    }, 
-    setUser: null
-})
+} | null>(null)
 
-const UserProvider = ({
+const UserContext = ({
     children
 }:{
     children: React.ReactNode
 }) => {
-    const [user, setUser] = React.useState<UserSchema | null>(null)
+    const [user, setUser] = React.useState<IUserSchema | null>(null)
+    const {user: auth0User, isLoading: auht0IsLoading} = useUser()
+    
+
 
 
 
@@ -32,4 +26,4 @@ const UserProvider = ({
     )
 }
 
-export default UserProvider
+export default UserContext
