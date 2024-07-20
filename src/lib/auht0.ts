@@ -1,8 +1,6 @@
 import { UserSignupSchema } from "@/types/User";
 import { asyncRequestFetcher } from "../../utils/dataFetch";
-import { SaveToMongoDB } from "./mongoDB";
-import User from "@/models/User";
-import { NextApiResponse } from "next";
+
 
 // var request = require("request");
 

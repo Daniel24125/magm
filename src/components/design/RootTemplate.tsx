@@ -1,8 +1,11 @@
 import React from 'react'
 import { useUser } from '@auth0/nextjs-auth0/client';
-import UserContext from '@/contexts/UserProvider';
 import { useRouter } from 'next/router'
 import { noRedirectURLs } from '../../../utils/utils';
+import { useFetchData } from '../../../utils/dataFetch';
+import UserContext from '@/contexts/UserProvider';
+import { Toaster } from '../ui/toaster';
+import LoadingComponent from '../LoadingComponent';
 
 const RootTemplate = ({
     children
@@ -12,17 +15,32 @@ const RootTemplate = ({
     const { user, error, isLoading } = useUser();
     const router = useRouter()
 
-    if (isLoading) return <div>Loading...</div>
-    if (error) return <div>{error.message}</div>
-    if(!user && !noRedirectURLs.includes(router.asPath)) {
-        router.push("/api/auth/login")
-        return
+    const {data, isLoading:isFetching} = useFetchData({
+        url: "/api/user/validate",
+        method: "POST",
+        body: {
+            email: user?.email
+        }
+    }, Boolean(user))
+
+    const loading = React.useMemo(()=> isLoading || isFetching, [isLoading, isFetching])
+
+    if(!loading){
+        if (error) return <div>{error.message}</div>
+        if(!user && !noRedirectURLs.includes(router.asPath)) {
+            router.push("/api/auth/login")
+            return
+        }
+        if(router.asPath === "/signup") return children
+        if(!data?.result.validated) {
+            router.push("/user/completeProfile")
+        }
     }
-    if(router.asPath === "/signup") return children
 
     return <UserContext>
-        
-        {children}
+        <LoadingComponent isLoading={isLoading || isFetching}/>
+        {!loading && children}
+        <Toaster/>
     </UserContext>
 }
 

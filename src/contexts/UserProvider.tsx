@@ -13,8 +13,8 @@ const UserContext = ({
 }:{
     children: React.ReactNode
 }) => {
-    const [user, setUser] = React.useState<IUserSchema | null>(null)
     const {user: auth0User, isLoading: auht0IsLoading} = useUser()
+    const [user, setUser] = React.useState<IUserSchema | null>(null)
     
 
 

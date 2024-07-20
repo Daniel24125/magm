@@ -13,3 +13,13 @@ export const SaveToMongoDB = async ({
         errorMessage: null
     }
 }
+
+export const UserAlreadyExists = async ({
+    GenericModel, 
+    data
+}: TMongoFetcherSchema)=>{
+    await dbConnect()
+    const user = await GenericModel.findOne({"email": data.email});
+    return Boolean(user)
+
+}

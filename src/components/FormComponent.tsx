@@ -1,4 +1,3 @@
-import { UserSignupSchema } from '@/types/User'
 import React from 'react'
 import { Button } from './ui/button'
 import { useFetchData } from '../../utils/dataFetch'
@@ -24,6 +23,25 @@ const FormComponent = ({
     const [submit, setSubmit] = React.useState(false)
     const [serverErrorMessage, setServerErrorMessage] = React.useState("")
 
+    const initiateFormState = (child: any) =>{
+        setData((prev:any)=>{
+            return{
+                ...prev,
+                [child.props.id]: ""
+            }
+        })
+    }
+
+    const initiateErrorState = (child: any) =>{
+        if(child.props.required){
+            setError((prevError: any)=>{
+                return {
+                    ...prevError,
+                    [child.props.id]: false
+                }
+            })
+        }
+    }
 
     const handleChange = (el: React.ChangeEvent<HTMLInputElement>)=>{
         setServerErrorMessage("")
@@ -42,23 +60,16 @@ const FormComponent = ({
       };
 
     React.useEffect(()=>{
-        children.forEach((child:any)=>{
-            setData((prev:any)=>{
-                return{
-                    ...prev,
-                    [child.props.id]: ""
-                }
+        let childrenIsArray = Array.isArray(children)
+        if(childrenIsArray){
+            children.forEach((child:any)=>{
+                initiateFormState(child)
+                initiateErrorState(child)
             })
-
-            if(child.props.required){
-                setError((prevError: any)=>{
-                    return {
-                        ...prevError,
-                        [child.props.id]: false
-                    }
-                })
-            }
-        })
+        }else{
+            initiateFormState(children)
+            initiateErrorState(children)
+        }
     },[])
 
     const childrenWithHandlers = React.Children.map(children, (child, idx) => {
@@ -124,7 +135,6 @@ export const OnSubmitComponent = ({
     
     React.useEffect(()=>{
         if(!isLoading){
-            console.log(data)
             if(data?.errorMessage){
                 setServerErrorMessage(data.errorMessage)
             }else{
@@ -140,19 +150,5 @@ export const OnSubmitComponent = ({
 }
 
 
-export const OnGoogleSubmit = ()=>{
-    const {data, isLoading, error} = useFetchData({
-        url: "/api/user",
-        method: "POST",
-        body: {
-            signupMethod: "google-oauth2"
-        }
-    }, true)
-
-    console.log(data)
-    return <Spinner/>
-
-
-}
 
 export default FormComponent

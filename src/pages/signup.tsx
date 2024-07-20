@@ -1,6 +1,6 @@
 import React from 'react'
 import {GoogleLogo, Logo} from "@/components/design/LogosCollection"
-import FormComponent, { OnGoogleSubmit } from '@/components/FormComponent'
+import FormComponent from '@/components/FormComponent'
 import { Input } from '@/components/ui/input'
 import Link from 'next/link'
 import { possibleVideoLinks } from '../../utils/utils'
@@ -45,7 +45,6 @@ const VideoComponent = ()=>{
 const SignupFormComponent = ()=>{
   const router = useRouter();
 
-
   return <div className='w-1/2 h-full flex flex-col justify-center items-center'>
     <div className="w-[clamp(320px,100%,400px)] flex flex-col justify-center items-center">
       <h1 className='font-bold text-5xl mb-3 text-center'>Signup to MAGM</h1>
@@ -65,15 +64,13 @@ const SignupFormComponent = ()=>{
         <Input className='w-full' required id="email" type="email" placeholder="Email"/>
         <Input className='w-full' required id="password" type='password'  placeholder="Password"/>
       </FormComponent>
-        <Divider 
-        	bgColor="bg-white"
-          text="OR CONTINUE WITH"
-          className='text-xs text-slate-400 mb-7'
-        />
-        <GoogleSignupButton/>
+      <Divider 
+        bgColor="bg-white"
+        text="OR CONTINUE WITH"
+        className='text-xs text-slate-400 mb-7'
+      />
+      <GoogleSignupButton/>
     </div>
-
-
     <h6 className="text-slate-400 text-xs">Already have an account? <Link href="/api/auth/login" className="text-primary pointer font-bold underline">Login</Link> </h6>
 
   </div>

@@ -3,7 +3,7 @@ import axios from 'axios'
 import { TAsyncDataFetcherConfig, TAxiosConfig, TDataFetchConfigSchema, TFetchDataSchema, TFetchedDataSchema } from '@/types/DataFetch'
 let request = require("request")
 
-const fetcher = (config: TAxiosConfig)=> axios({
+export const fetcher = (config: TAxiosConfig)=> axios({
     method: config.method,
     url: config.url,
     data: config.body,
