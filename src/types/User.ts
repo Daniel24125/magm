@@ -9,6 +9,7 @@ export type AccountSettingsSchema = {
 export interface IUserSchema extends Document {
     fName: string | null, 
     email: string | null, 
+    picture: string | null | undefined,
     isLoading: boolean, 
     projects: ProjectSchema[],
     defaultProjectSettings: ProjectSettingsSchema | null, 

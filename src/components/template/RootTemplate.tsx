@@ -24,7 +24,7 @@ const RootTemplate = ({
 
     const router = useRouter()
 
-    const {data, isLoading:isFetching} = useFetchData({
+    const {data} = useFetchData({
         url: "/api/user/validate",
         method: "POST",
         body: {
@@ -33,17 +33,17 @@ const RootTemplate = ({
     }, Boolean(user))
 
 
-    React.useEffect(()=>{
-        setIsLoading(auth0IsLoading || isFetching)
-    },[auth0IsLoading, isFetching])
+    console.log(isLoading, data)
 
-    if(!isLoading){
+    if(!isLoading && !auth0IsLoading){
         if(!user && !noRedirectURLs.includes(router.asPath)) {
             router.push("/api/auth/login")
             return
         }
         if(router.asPath === "/signup") return children
-        if(!data?.result.validated) router.push("/user/completeProfile")
+        if(!data?.result.validated) {
+            router.push("/user/completeProfile")
+        }
     }
 
     return <UserContext>

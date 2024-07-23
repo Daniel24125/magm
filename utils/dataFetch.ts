@@ -1,6 +1,8 @@
+import React from "react"
 import useSWR from 'swr'
 import axios from 'axios'
 import { TAsyncDataFetcherConfig, TAxiosConfig, TDataFetchConfigSchema, TFetchDataSchema, TFetchedDataSchema } from '@/types/DataFetch'
+import { LoadingContextProvider } from '@/contexts/LoadingContext'
 let request = require("request")
 
 export const fetcher = (config: TAxiosConfig)=> axios({
@@ -11,10 +13,18 @@ export const fetcher = (config: TAxiosConfig)=> axios({
 }).then(res => res.data)
 
 export const useFetchData = (config: TDataFetchConfigSchema, canFetch: boolean = true)=>{
-    const { data, error, mutate, isValidating: isLoading} = useSWR<TFetchedDataSchema>(canFetch ? config: null, fetcher, {
+    //@ts-ignore
+    const {setIsLoading} = React.useContext(LoadingContextProvider)
+    const { data, error, mutate, isValidating} = useSWR<TFetchedDataSchema>(canFetch ? config: null, fetcher, {
         revalidateOnFocus: false
     })   
-    return {data, error, isLoading , mutate}
+
+    React.useEffect(()=>{
+        setIsLoading(!data || isValidating)
+    },[isValidating])
+
+
+    return {data, error, mutate}
 }
 
 

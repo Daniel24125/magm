@@ -4,9 +4,9 @@ import { SaveToMongoDB, UserAlreadyExists } from '@/lib/mongoDB'
 import User from '@/models/User'
  
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+    const {body, method} = req 
     try {
-        if (req.method === 'POST') {
-            const {body} = req 
+        if (method === 'POST') {
             const {signupMethod} = body
             delete body.signupMethod
 
@@ -18,7 +18,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             if(userExists){
                 res.json({
                     result: null,
-                    errorMessage: null
+                    errorMessage: "The email you provided already exists"
                 })
             }
 
@@ -32,7 +32,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             })
             res.json(result)
       
-        } 
+        }
         
     } catch (error:any) {
         res.json({

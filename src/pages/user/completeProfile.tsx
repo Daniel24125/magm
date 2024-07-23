@@ -18,7 +18,7 @@ const CompleteProfile = () => {
     }
 
     return (
-        <div className='w-screen h-screen flex justify-center items-center'>
+        <div className='fixed top-0 left-0 bg-white w-screen h-screen flex justify-center items-center'>
             <div className='w-[clamp(300px,90vw,400px)] p-6 border-[1px] rounded-md'>
                 
                 <h1 className='font-bold text-3xl mb-3'>Complete your profile</h1>

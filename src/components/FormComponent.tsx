@@ -4,6 +4,7 @@ import { useFetchData } from '../../utils/dataFetch'
 import { TDataFetchConfigSchema } from '@/types/DataFetch'
 import Spinner from './design/Spinner'
 import { useErrorBoundary } from 'react-error-boundary'
+import { LoadingContextProvider } from '@/contexts/LoadingContext'
 
 
 const FormComponent = ({
@@ -132,8 +133,11 @@ export const OnSubmitComponent = ({
     fetcherConfig: TDataFetchConfigSchema,
     successFn: any
 })=>{
-    const {data, isLoading, error} = useFetchData(fetcherConfig, true)
+    //@ts-ignore
+    const {isLoading} = React.useContext(LoadingContextProvider)
+    const {data, error} = useFetchData(fetcherConfig, true)
     const { showBoundary } = useErrorBoundary();
+    
     React.useEffect(()=>{
         if(!isLoading){
             if(error){
