@@ -8,7 +8,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         if (req.method === 'POST') {
             const {body} = req 
             const {signupMethod} = body
-            
             delete body.signupMethod
 
             const userExists = await UserAlreadyExists({
@@ -17,7 +16,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             })
 
             if(userExists){
-                console.log("USER ALREADY EXISTS")
                 res.json({
                     result: null,
                     errorMessage: null

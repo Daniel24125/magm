@@ -3,6 +3,7 @@ import { Button } from './ui/button'
 import { useFetchData } from '../../utils/dataFetch'
 import { TDataFetchConfigSchema } from '@/types/DataFetch'
 import Spinner from './design/Spinner'
+import { useErrorBoundary } from 'react-error-boundary'
 
 
 const FormComponent = ({
@@ -132,9 +133,13 @@ export const OnSubmitComponent = ({
     successFn: any
 })=>{
     const {data, isLoading, error} = useFetchData(fetcherConfig, true)
-    
+    const { showBoundary } = useErrorBoundary();
     React.useEffect(()=>{
         if(!isLoading){
+            if(error){
+                showBoundary("Something went wrong while trying to sumit the form data!")
+                return 
+            }
             if(data?.errorMessage){
                 setServerErrorMessage(data.errorMessage)
             }else{

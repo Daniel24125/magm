@@ -3,7 +3,7 @@ import { useUser } from '@auth0/nextjs-auth0/client'
 import React from 'react'
 import { useFetchData } from '../../utils/dataFetch'
 
-const UserContextProvider = React.createContext<{
+export const UserContextProvider = React.createContext<{
     user: IUserSchema | null, 
     setUser: any
 } | null>(null)
