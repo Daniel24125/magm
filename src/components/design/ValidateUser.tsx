@@ -3,11 +3,10 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
 import { useUser } from '@auth0/nextjs-auth0/client'
-import { ToastAction } from '@radix-ui/react-toast'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-const CompleteProfile = () => {
+const ValidateUser = () => {
     const {user} = useUser()
     const router = useRouter()
     const { toast } = useToast()
@@ -52,4 +51,4 @@ const CompleteProfile = () => {
     )
 }
 
-export default CompleteProfile
+export default ValidateUser

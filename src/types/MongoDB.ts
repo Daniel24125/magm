@@ -1,5 +1,6 @@
 import { Model } from "mongoose";
 
-export type TMongoFetcherSchema = {
+export type TMongoFunctionSchema = {
     GenericModel: Model<any>,
     data: any}
+

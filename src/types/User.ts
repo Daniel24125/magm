@@ -7,13 +7,13 @@ export type AccountSettingsSchema = {
 }
 
 export interface IUserSchema extends Document {
-    fName: string | null, 
-    email: string | null, 
-    picture: string | null | undefined,
-    isLoading: boolean, 
-    projects: ProjectSchema[],
-    defaultProjectSettings: ProjectSettingsSchema | null, 
-    accountSettings: AccountSettingsSchema | null
+    fName?: string | null, 
+    email?: string | null, 
+    picture?: string | null | undefined,
+    isAuthenticated?: boolean,  
+    projects?: ProjectSchema[],
+    defaultProjectSettings?: ProjectSettingsSchema | null, 
+    accountSettings?: AccountSettingsSchema | null
 }
 
 export type UserSignupSchema = {

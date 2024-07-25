@@ -1,10 +1,12 @@
+import User from "@/models/User"
 import dbConnect from "./dbConnect"
-import { TMongoFetcherSchema } from "@/types/MongoDB"
+import { TMongoFunctionSchema } from "@/types/MongoDB"
 
 export const SaveToMongoDB = async ({
     GenericModel, 
     data
-}: TMongoFetcherSchema)=>{        
+}: TMongoFunctionSchema)=>{     
+   
     await dbConnect()
     const inst = new GenericModel(data) 
     await inst.save()
@@ -14,12 +16,17 @@ export const SaveToMongoDB = async ({
     }
 }
 
-export const UserAlreadyExists = async ({
-    GenericModel, 
-    data
-}: TMongoFetcherSchema)=>{
+export const FetchUserInfo = async (email: string)=>{
     await dbConnect()
-    const user = await GenericModel.findOne({"email": data.email});
+    const user = await User.findOne({email})
+    return user
+    }
+
+export const UserAlreadyExists = async ({
+    data
+}: TMongoFunctionSchema)=>{
+    await dbConnect()
+    const user = await FetchUserInfo(data.email)
     return Boolean(user)
 
 }

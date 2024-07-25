@@ -18,10 +18,7 @@ const userSchema: Schema = new mongoose.Schema({
         type: String,
         required: true
     },
-    picture: {
-        type: String, 
-        required: true
-    },
+
     projects: {
         type: Array,
     },

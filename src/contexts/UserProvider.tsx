@@ -2,7 +2,6 @@ import { IUserSchema } from '@/types/User'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import React from 'react'
 import { useFetchData } from '../../utils/dataFetch'
-import { LoadingContextProvider } from './LoadingContext'
 
 export const UserContextProvider = React.createContext<{
     user: IUserSchema | null, 
@@ -17,23 +16,29 @@ const UserContext = ({
     const {user: auth0User, isLoading: auht0IsLoading} = useUser()
     const [user, setUser] = React.useState<IUserSchema | null>(null)
     //@ts-ignore
-    const {isLoading} = React.useContext(LoadingContextProvider)
 
-    // const {data} = useFetchData({
-    //     url: "/api/user",
-    //     method: "POST",
-    //     body: {
-    //         email: user?.email
-    //     }
-    // }, true)
+    const {data, isLoading} = useFetchData({
+        url: "/api/user",
+        method: "POST",
+        body: {
+            email: auth0User?.email
+        }
+    }, Boolean(auth0User))
     
 
 
-    // React.useEffect(()=>{
-    //     if(!isLoading){
-
-    //     }
-    // }, [isLoading])
+    React.useEffect(()=>{
+        if(!isLoading && data){
+            setUser((prev: any)=>{
+                return {
+                    ...prev, 
+                    isAuthenticated: Boolean(auth0User),
+                    picture: auth0User ? auth0User.picture : null,
+                    ...data.result
+                }
+            })
+        }
+    }, [isLoading])
 
 
     return (<UserContextProvider.Provider value={{user, setUser}}>

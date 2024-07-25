@@ -7,24 +7,22 @@ import UserContext from '@/contexts/UserProvider';
 import { Toaster } from '../ui/toaster';
 import Topbar from './Topbar';
 import Navigation from './Navigation';
-import { LoadingContextProvider } from '@/contexts/LoadingContext';
-import { useErrorBoundary } from 'react-error-boundary';
-import PageContext from '@/contexts/PageContext';
+import ValidateUser from '../design/ValidateUser';
+import LoadingComponent from '../LoadingComponent';
+
 
 const RootTemplate = ({
     children
 }:{
     children: React.ReactNode
 }) => {
-    const navSize = 280
-    const topbarSize = 70
+
     //@ts-ignore
-    const {isLoading, setIsLoading} = React.useContext(LoadingContextProvider)
     const { user,  isLoading:auth0IsLoading } = useUser();
 
     const router = useRouter()
 
-    const {data} = useFetchData({
+    const {data, isLoading} = useFetchData({
         url: "/api/user/validate",
         method: "POST",
         body: {
@@ -33,29 +31,32 @@ const RootTemplate = ({
     }, Boolean(user))
 
 
-    console.log(isLoading, data)
+    const loading = React.useMemo(()=>{
+        return isLoading || auth0IsLoading
+    },[isLoading, auth0IsLoading])
 
-    if(!isLoading && !auth0IsLoading){
+    if(!loading){
         if(!user && !noRedirectURLs.includes(router.asPath)) {
             router.push("/api/auth/login")
             return
         }
-        if(router.asPath === "/signup") return children
-        if(!data?.result.validated) {
-            router.push("/user/completeProfile")
+        if(data && !data?.result.validated) {
+            return <ValidateUser/>
         }
+    }else{
+        return <LoadingComponent isLoading={loading}/>
     }
+    
+    if(router.asPath === "/signup") return children
 
     return <UserContext>
-        <PageContext>
-            <div className='h-screen flex overflow-hidden'>
-                <Navigation size={navSize}/>
-                <main className='w-full h-full overflow-auto px-6'>
-                    <Topbar size={topbarSize}/>
-                    {!isLoading && children}
-                </main>
-            </div>
-        </PageContext>
+        <div className='h-screen flex overflow-hidden'>
+            <Navigation />
+            <main className='w-full h-full overflow-auto px-6'>
+                <Topbar />
+                {!isLoading && children}
+            </main>
+        </div>
         <Toaster/>
     </UserContext>
 }

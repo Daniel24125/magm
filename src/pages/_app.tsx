@@ -4,20 +4,19 @@ import type { AppProps } from "next/app";
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorComponent from "@/components/ErrorComponent";
-import LoadingContext from "@/contexts/LoadingContext";
+import PageContext from "@/contexts/PageContext";
 
 export default function App({ Component, pageProps }: AppProps) {
   
   return(
-    <LoadingContext>
-      <UserProvider>
-        <ErrorBoundary FallbackComponent ={ErrorComponent}>
-          {/* @ts-ignore*/}
+    <UserProvider>
+      <ErrorBoundary FallbackComponent ={ErrorComponent}>
+        <PageContext>
           <RootTemplate>
               <Component {...pageProps} />
           </RootTemplate>
-        </ErrorBoundary>
-      </UserProvider>
-    </LoadingContext>
+        </PageContext>
+      </ErrorBoundary>
+    </UserProvider>
 )
 }

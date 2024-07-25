@@ -14,6 +14,7 @@ const PageContext = ({
 }:{
     children: React.ReactNode
 }) => {
+    //@ts-ignore
     const [pageParams, setPageParams] = React.useState<TPageParamsSchema>({
         title: "Dashboard"
     })
@@ -26,8 +27,11 @@ const PageContext = ({
             }
         })
     }
-    return (<PageContextProvider.Provider value={{pageParams, updatePageParams}}>
 
+    
+
+
+    return (<PageContextProvider.Provider value={{pageParams, updatePageParams}}>
       {children}
   </PageContextProvider.Provider>
   )

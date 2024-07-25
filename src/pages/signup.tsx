@@ -53,7 +53,7 @@ const SignupFormComponent = ()=>{
         className='w-full mb-5'
         fetcherConfig={{
           method: "POST",
-          url: "/api/user",
+          url: "/api/user/signup",
           body: {
             signupMethod: "email-password"
           }

@@ -9,10 +9,12 @@ export default function Home() {
   const router = useRouter()
   //@ts-ignore
   const {updatePageParams} = React.useContext(PageContextProvider)
-  
+
+
   React.useEffect(()=>{
     updatePageParams({title: "Dashboard"})
   },[])
+
   return (
     <div>
       AUTHENTICATED
