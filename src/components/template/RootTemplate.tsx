@@ -9,6 +9,7 @@ import Topbar from './Topbar';
 import Navigation from './Navigation';
 import ValidateUser from '../design/ValidateUser';
 import LoadingComponent from '../LoadingComponent';
+import SocketContext from '@/contexts/SocketContext';
 
 
 const RootTemplate = ({
@@ -50,14 +51,18 @@ const RootTemplate = ({
     if(router.asPath === "/signup") return children
 
     return <UserContext>
-        <div className='h-screen flex overflow-hidden'>
-            <Navigation />
-            <main className='w-full h-full overflow-auto px-6'>
-                <Topbar />
-                {!isLoading && children}
-            </main>
-        </div>
-        <Toaster/>
+        <SocketContext>
+            <>
+                <div className='h-screen flex overflow-hidden'>
+                    <Navigation />
+                    <main className='w-full h-full overflow-auto px-6'>
+                        <Topbar />
+                        {!isLoading && children}
+                    </main>
+                </div>
+                <Toaster/>
+            </>
+        </SocketContext>
     </UserContext>
 }
 

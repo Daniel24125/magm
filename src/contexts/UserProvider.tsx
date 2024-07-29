@@ -13,10 +13,11 @@ const UserContext = ({
 }:{
     children: React.ReactNode
 }) => {
-    const {user: auth0User, isLoading: auht0IsLoading} = useUser()
+    const {user: auth0User} = useUser()
     const [user, setUser] = React.useState<IUserSchema | null>(null)
     //@ts-ignore
 
+    
     const {data, isLoading} = useFetchData({
         url: "/api/user",
         method: "POST",
