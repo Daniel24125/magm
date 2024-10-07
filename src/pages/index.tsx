@@ -23,7 +23,9 @@ export default function Home() {
       AUTHENTICATED
       <Button onClick={()=>{
         if(socketOptions.socket) {
-          socketOptions.socket.connect()
+          socketOptions.socket.send(JSON.stringify({
+            msg: "HELLO"
+          }))
         }
       }}>Connect to socket</Button>
     </div>

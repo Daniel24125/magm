@@ -6,8 +6,6 @@ import mongoose, {
 } from "mongoose";
 
 
-
-
 const userSchema: Schema = new mongoose.Schema({
     fName: {
         type: String,
