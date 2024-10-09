@@ -1,5 +1,6 @@
 import { SocketOptionsSchema } from '@/types/Socket';
 import React from 'react'
+import { io } from "socket.io-client";
 
 
 
@@ -20,29 +21,48 @@ const SocketContext = ({children}: {children: React.ReactNode}) => {
    
     
     React.useEffect(()=>{
-        
-        const socket = new WebSocket(process.env.NEXT_PUBLIC_BACKEND_API_URL as string);
+        const socket = io(process.env.NEXT_PUBLIC_BACKEND_API_URL as string, {
+            reconnectionDelayMax: 10000
+          });
 
-        socket.addEventListener("open", ()=>{
-            console.log("Socket connected!")
+        socket.on("connect", ()=>{
+            console.log("Connected!")
             setSocketOptions({
                 //@ts-ignore
                 socket: socket
             })
-            socket.send(JSON.stringify({
-                "cmd": "identification", 
+            socket.emit("cmd", {
                 "data": "next"
-            }))
+            })
         })
 
-        socket.addEventListener("message", (data: any)=>{
-            console.log("Message Received: ", data)
+        socket.on("disconnect", ()=>{
+            console.log("Disconnected!")
+        })
+        // socket.addEventListener("open", ()=>{
+        //     console.log("Socket connected!")
+        //     setSocketOptions({
+        //         //@ts-ignore
+        //         socket: socket
+        //     })
+        //     socket.send(JSON.stringify({
+        //         "cmd": "identification", 
+        //         "data": "next"
+        //     }))
+        // })
+
+
+        // socket.addEventListener("message", (data: any)=>{
+        //     console.log("Message Received: ", data )
             
-        })
+        // })
 
-        socket.addEventListener("close", (data: any)=>{
-            console.log("Connection closed!")
-        })
+        // socket.addEventListener("close", (data: any)=>{
+        //     console.log("Connection closed!",data)
+        // })
+
+     
+            
     },[])
     return (<SocketContextProvider.Provider value={{socketOptions, setSocketOptions}}>
         {children}
