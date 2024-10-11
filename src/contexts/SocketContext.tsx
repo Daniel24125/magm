@@ -31,14 +31,16 @@ const SocketContext = ({children}: {children: React.ReactNode}) => {
                 //@ts-ignore
                 socket: socket
             })
-            socket.emit("cmd", {
-                "data": "next"
-            })
+            socket.emit("identification", "next")
         })
-
+        socket.on("device_data_update", (data)=>{
+            console.log("Command Received: ", data)
+        })
+        
         socket.on("disconnect", ()=>{
             console.log("Disconnected!")
         })
+        
         // socket.addEventListener("open", ()=>{
         //     console.log("Socket connected!")
         //     setSocketOptions({
