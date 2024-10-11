@@ -33,10 +33,10 @@ const SocketContext = ({children}: {children: React.ReactNode}) => {
             })
             socket.emit("identification", "next")
         })
-        socket.on("device_data_update", (data)=>{
-            console.log("Command Received: ", data)
-        })
         
+        socket.on("test", (data)=>{
+            console.log("TEST: ", data)
+        })
         socket.on("disconnect", ()=>{
             console.log("Disconnected!")
         })
