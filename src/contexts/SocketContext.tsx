@@ -1,4 +1,5 @@
 import { SocketOptionsSchema } from '@/types/Socket';
+import { time } from 'console';
 import React from 'react'
 import { io } from "socket.io-client";
 
@@ -32,6 +33,7 @@ const SocketContext = ({children}: {children: React.ReactNode}) => {
                 socket: socket
             })
             socket.emit("identification", "next")
+
         })
         
         socket.on("test", (data)=>{
