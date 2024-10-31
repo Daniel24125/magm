@@ -19,59 +19,55 @@ const SocketContext = ({children}: {children: React.ReactNode}) => {
     const [socketOptions, setSocketOptions] = React.useState({
         socket: null
     })
-   
+    // React.useEffect(()=>{
+    //     const socket = io("ws://localhost:8000", {
+    //         reconnectionDelayMax: 10000
+    //       });
+
+    //     socket.on("connect", ()=>{
+    //         console.log("Connected!")
+    //         setSocketOptions({
+    //             //@ts-ignore
+    //             socket: socket
+    //         })
+    //         socket.emit("identification", "next")
+
+    //     })
+        
+    //     socket.on("test", (data)=>{
+    //         console.log("TEST: ", data)
+    //     })
+
+    //     socket.on("device_update", (data)=>{
+    //         console.log("DEVICE STATUS: ", data)
+    //     })
+    //     socket.on("disconnect", ()=>{
+    //         console.log("Disconnected!")
+    //     })
+        
+    // },[])
     
     React.useEffect(()=>{
-        const socket = io(process.env.NEXT_PUBLIC_BACKEND_API_URL as string, {
-            reconnectionDelayMax: 10000
-          });
+        const socket = new WebSocket('ws://127.0.0.1:8765');
 
-        socket.on("connect", ()=>{
-            console.log("Connected!")
-            setSocketOptions({
-                //@ts-ignore
-                socket: socket
-            })
-            socket.emit("identification", "next")
-
-        })
+        socket.onopen = () => {
+            // socket.send(encodeURIComponent("He"))
+            socket.send(JSON.stringify({
+                cmd: "identification", 
+                origin: "nextjs",
+                data: "nextjs"
+            }));
+            console.log("Connection Open")
+            // setTimeout(()=>{
+            //     socket.send("He")
+            // },5000)
+        };
         
-        socket.on("test", (data)=>{
-            console.log("TEST: ", data)
-        })
-
-        socket.on("device_update", (data)=>{
-            console.log("DEVICE STATUS: ", data)
-        })
-        socket.on("disconnect", ()=>{
-            console.log("Disconnected!")
-        })
-        
-        // socket.addEventListener("open", ()=>{
-        //     console.log("Socket connected!")
-        //     setSocketOptions({
-        //         //@ts-ignore
-        //         socket: socket
-        //     })
-        //     socket.send(JSON.stringify({
-        //         "cmd": "identification", 
-        //         "data": "next"
-        //     }))
-        // })
-
-
-        // socket.addEventListener("message", (data: any)=>{
-        //     console.log("Message Received: ", data )
-            
-        // })
-
-        // socket.addEventListener("close", (data: any)=>{
-        //     console.log("Connection closed!",data)
-        // })
-
-     
-            
+        socket.onmessage = (event) => {
+            console.log('Received message:', event.data);
+        };
     },[])
+    
     return (<SocketContextProvider.Provider value={{socketOptions, setSocketOptions}}>
         {children}
     </SocketContextProvider.Provider>

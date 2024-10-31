@@ -13,6 +13,8 @@ export default function Home() {
   //@ts-ignore
   const {socketOptions} = React.useContext(SocketContextProvider);
 
+  const [experimentStarted, setExperimentStarted] = React.useState(false)
+
   React.useEffect(()=>{
     updatePageParams({title: "Dashboard"})
     
@@ -23,9 +25,8 @@ export default function Home() {
       AUTHENTICATED
       <Button onClick={()=>{
         if(socketOptions.socket) {
-          socketOptions.socket.send(JSON.stringify({
-            msg: "HELLO"
-          }))
+          socketOptions.socket.emit(experimentStarted ? "stop_experiment": "start_experiment", "helo")
+          setExperimentStarted(prev=>!prev)
         }
       }}>Connect to socket</Button>
     </div>
