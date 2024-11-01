@@ -48,15 +48,14 @@ const SocketContext = ({children}: {children: React.ReactNode}) => {
     // },[])
     
     React.useEffect(()=>{
-        const socket = new WebSocket('ws://127.0.0.1:8765');
+        const socket = new WebSocket(process.env.NEXT_PUBLIC_BACKEND_API_URL as string);
 
         socket.onopen = () => {
             // socket.send(encodeURIComponent("He"))
-            socket.send(JSON.stringify({
-                cmd: "identification", 
-                origin: "nextjs",
-                data: "nextjs"
-            }));
+            // socket.send(JSON.stringify({
+            //     cmd: "start_experiment", 
+            //     data: "nextjs"
+            // }));
             console.log("Connection Open")
             // setTimeout(()=>{
             //     socket.send("He")
@@ -66,6 +65,10 @@ const SocketContext = ({children}: {children: React.ReactNode}) => {
         socket.onmessage = (event) => {
             console.log('Received message:', event.data);
         };
+
+        socket.onclose = ()=>{
+            console.log("Connection closed.")
+        }
     },[])
     
     return (<SocketContextProvider.Provider value={{socketOptions, setSocketOptions}}>
