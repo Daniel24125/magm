@@ -31,7 +31,6 @@ const RootTemplate = ({
         }
     }, Boolean(user))
 
-
     const loading = React.useMemo(()=>{
         return isLoading || auth0IsLoading
     },[isLoading, auth0IsLoading])
@@ -41,6 +40,7 @@ const RootTemplate = ({
             router.push("/api/auth/login")
             return
         }
+        if(data && data.errorMessage) throw new Error(data.errorMessage)
         if(data && !data?.result.validated) {
             return <ValidateUser/>
         }
