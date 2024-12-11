@@ -13,7 +13,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head></head>
       <body>
+        <nav className="w-screen bg-orange-400 h-20">
+     
+        </nav>
+
         {children}
       </body>
     </html>
