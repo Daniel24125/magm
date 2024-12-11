@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Nav from "./components/Nav";
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 
 
 export const metadata: Metadata = {
@@ -6,21 +8,22 @@ export const metadata: Metadata = {
   description: "A web application to monitor micro algae growth",
 };
 
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+ 
   return (
     <html lang="en">
-      <head></head>
-      <body>
-        <nav className="w-screen bg-orange-400 h-20">
-     
-        </nav>
+      <UserProvider>
+        <body>
+          <Nav/>
+          {children}
+        </body>
+      </UserProvider>
 
-        {children}
-      </body>
     </html>
   );
 }
