@@ -1,4 +1,3 @@
-"use client"
 import Navigation from "./components/navigation";
 import React from "react";
 import { Toaster } from "@/components/ui/toaster";

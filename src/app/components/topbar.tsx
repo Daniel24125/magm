@@ -1,3 +1,5 @@
+"use client"
+
 import { PageContextProvider } from '@/contexts/PageContext'
 import React from 'react'
 import { Button } from '@/components/ui/button'

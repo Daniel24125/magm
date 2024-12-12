@@ -1,3 +1,5 @@
+"use client"
+
 import { IUserSchema } from '@/types/User'
 import { useFetchData } from '@/utils/dataFetch'
 import { useUser } from '@auth0/nextjs-auth0/client'
