@@ -5,35 +5,40 @@
 body, html{
   padding: 0; 
   margin: 0;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: "slnt" 0;
+  height: 100vh;
 }
 
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 121 48% 46%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 10% 3.9%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem
   }
   .dark {
     --background: 240 10% 3.9%;
@@ -70,3 +75,80 @@ body, html{
     @apply bg-background text-foreground;
   }
 }
+
+
+
+
+.loadingWrapper {
+  --size: 100px;
+  width: var(--size);
+  height: var(--size);
+  /* margin: calc(var(--size) / -2); */
+
+  span {
+    background: #3EAF3F;
+    border-radius: 50%;
+    display: inline-block;
+  }
+ 
+  
+  p:nth-child(1) {
+    position: absolute;
+    animation: skewing-child .2s ease-in-out infinite alternate;
+    
+    span {
+      width: calc(var(--size) / 5);
+      height: calc(var(--size) / 5);
+      margin: calc(var(--size) / -20);;
+      animation: moving 2s cubic-bezier(.97,.01,.12,.99) infinite alternate;
+    }
+  }
+  
+  p:nth-child(2) {
+    animation: squishing 1s ease-in-out infinite alternate;
+    
+    span {
+      width: calc(var(--size));
+      height: calc(var(--size));
+      margin: calc(var(--size) / -8);
+      animation: skewing 2s 1.5s ease-in-out infinite;
+    }
+  } 
+}
+
+@keyframes skewing {
+  0% { transform: skewX(6deg); }
+  10% { transform: skewX(-6deg); }
+  20% { transform: skewX(4deg); }
+  30% { transform: skewX(-4deg); }
+  40% { transform: skewX(2deg); }
+  50% { transform: skewX(-6deg); }
+  55% { transform: skewX(6deg); }
+  60% { transform: skewX(-5deg); }
+  65% { transform: skewX(5deg); }
+  70% { transform: skewX(-4deg); }
+  75% { transform: skewX(4deg); }
+  80% { transform: skewX(-3deg); } 
+  85% { transform: skewX(3deg); }
+  90% { transform: skewX(-2deg); } 
+  95% { transform: skewX(2deg); }
+  100%   { transform: skewX(1deg); }
+}
+
+@keyframes skewing-child {
+  0%      { transform: skewX(-10deg); }
+  100%     { transform: skewX(10deg); }
+}
+
+@keyframes moving {
+  0% {transform: translate(calc(var(--size)));}
+  30% {transform: translate(calc(var(--size) / -10));} 
+  70% {transform: translate(calc(var(--size) / 10));}
+  100% {transform: translate(calc(var(--size)));}
+}
+
+@keyframes squishing {
+  10%, 40%, 80% { transform: scale(1, .9); }
+  0%, 30%, 60%, 100% {transform: scale(.9, 1);}
+}
+

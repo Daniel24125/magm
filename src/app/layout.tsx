@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Nav from "./components/Nav";
 import { UserProvider } from '@auth0/nextjs-auth0/client';
+import "./global.css"
 
 
 export const metadata: Metadata = {
@@ -17,12 +17,16 @@ export default function RootLayout({
  
   return (
     <html lang="en">
-      <UserProvider>
-        <body>
-          <Nav/>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+      </head>
+      <body>
+        <UserProvider>
           {children}
-        </body>
-      </UserProvider>
+        </UserProvider>
+      </body>
 
     </html>
   );
