@@ -1,5 +1,4 @@
 import { UserSignupSchema } from "@/types/User";
-import { asyncRequestFetcher } from "../../utils/dataFetch";
 
 
 // var request = require("request");
@@ -38,13 +37,11 @@ export const signuUpUserToAuth0 = async (body: UserSignupSchema)=>{
         name: body.fName,
     }
 
-    
-    return asyncRequestFetcher({
-        url: `${process.env.AUTH0_ISSUER_BASE_URL}/dbconnections/signup`,
+    return await fetch(`${process.env.AUTH0_ISSUER_BASE_URL}/dbconnections/signup`,{
         method: "POST",
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(params)
-    })
+        body: JSON.stringify(params),
+        headers: { 'content-type': 'application/json' }
+    }).then(res=>res.json())
 }
 
 
@@ -53,5 +50,5 @@ export const signupWithEmailPassword = async (body: UserSignupSchema) =>{
     if(!body.fName || !body.email || !body.password) {
         throw new Error("Please provide all the required information")
      }
-     await signuUpUserToAuth0(body);     
+    return await signuUpUserToAuth0(body);     
 }

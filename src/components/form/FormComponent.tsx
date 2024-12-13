@@ -1,9 +1,11 @@
 import React from 'react'
-import { Button } from './ui/button'
+import { Button } from '../ui/button'
 import { useFetchData } from "@/utils/dataFetch"
 import { TDataFetchConfigSchema } from '@/types/DataFetch'
 // import { useErrorBoundary } from 'react-error-boundary'
-import Spinner from './ui/Spinner'
+import Spinner from '../ui/Spinner'
+import FormHandler from './FormHandler'
+import { Toaster } from '../ui/toaster'
 
 
 const FormComponent = ({
@@ -22,7 +24,6 @@ const FormComponent = ({
     const [data, setData] = React.useState({})
     const [error, setError] = React.useState({})
     const [submit, setSubmit] = React.useState(false)
-    const [serverErrorMessage, setServerErrorMessage] = React.useState("")
 
     const initiateFormState = (child: any) =>{
         setData((prev:any)=>{
@@ -45,7 +46,6 @@ const FormComponent = ({
     }
 
     const handleChange = (el: React.ChangeEvent<HTMLInputElement>)=>{
-        setServerErrorMessage("")
         setData((prev:any)=>{
             return{
                 ...prev,
@@ -97,27 +97,15 @@ const FormComponent = ({
         }
     }
 
+   
+
     return (
-        <form onSubmit={onSubmit} className={`flex flex-col gap-4 ${className}`}>
+        <FormHandler
+            className={className}
+        >
             {childrenWithHandlers}
-            <Button className='flex gap-2'  disabled={submit} color='primary'>
-                {submit ? <OnSubmitComponent
-                    setServerErrorMessage={setServerErrorMessage}
-                    setSubmit={setSubmit}
-                    fetcherConfig={{
-                        ...fetcherConfig, 
-                        body: {
-                            ...fetcherConfig.body,
-                            ...data
-                        }
-                    }}
-                    successFn={successFn}
-                />: submitText}
-            </Button>
-            <h6 className="text-red-500 text-xs">
-                 {serverErrorMessage} 
-            </h6>
-        </form>
+            <Toaster />
+        </FormHandler>
     )
 }
 

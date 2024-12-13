@@ -28,6 +28,7 @@ const RootTemplate = ({
         }
     }, Boolean(user))
 
+    console.log(user)
     const loading = React.useMemo(()=>{
         return isLoading || auth0IsLoading
     },[isLoading, auth0IsLoading])

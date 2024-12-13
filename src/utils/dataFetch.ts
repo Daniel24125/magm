@@ -1,4 +1,4 @@
-"use client"
+
 import useSWR from 'swr'
 import axios from 'axios'
 import { TAsyncDataFetcherConfig, TAxiosConfig, TDataFetchConfigSchema, TFetchDataSchema, TFetchedDataSchema } from '@/types/DataFetch'

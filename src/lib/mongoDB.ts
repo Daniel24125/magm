@@ -22,11 +22,9 @@ export const FetchUserInfo = async (email: string)=>{
     return user
     }
 
-export const UserAlreadyExists = async ({
-    data
-}: TMongoFunctionSchema)=>{
+export const UserAlreadyExists = async (email: string)=>{
     await dbConnect()
-    const user = await FetchUserInfo(data.email)
+    const user = await User.findOne({email})
     return Boolean(user)
 
 }

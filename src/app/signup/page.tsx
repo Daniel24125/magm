@@ -1,5 +1,6 @@
 "use client"
-import FormComponent from '@/components/FormComponent';
+
+import FormComponent from '@/components/form/FormComponent';
 import { Button } from '@/components/ui/button';
 import Divider from '@/components/ui/Divider';
 import { Input } from '@/components/ui/input';
@@ -27,9 +28,9 @@ const Page = () => {
       }}
       successFn={()=>router.push("/api/auth/login")}
     >
-      <Input className='w-full' required id="fName"  placeholder="Full Name"/>
-      <Input className='w-full' required id="email" type="email" placeholder="Email"/>
-      <Input className='w-full' required id="password" type='password'  placeholder="Password"/>
+      <Input className='w-full' required name="fName" id="fName"  placeholder="Full Name"/>
+      <Input className='w-full' required name="email" id="email" type="email" placeholder="Email"/>
+      <Input className='w-full' required name="password" id="password" type='password'  placeholder="Password"/>
     </FormComponent>
     <Divider
       bgColor="bg-white"
