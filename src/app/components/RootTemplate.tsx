@@ -5,7 +5,7 @@ import UserContext from '@/contexts/UserProvider';
 import SocketContext from '@/contexts/SocketContext';
 import { useFetchData } from '@/utils/dataFetch';
 import { noRedirectURLs } from '@/utils/utils';
-import ValidateUser from './ValidateUser';
+import ValidateUser from './UserValidation';
 import { usePathname, useRouter } from 'next/navigation';
 
 
@@ -16,40 +16,11 @@ const RootTemplate = ({
     children: React.ReactNode
 }) => {
 
-    //@ts-ignore
-    const { user,  isLoading:auth0IsLoading } = useUser();
-    const pathname = usePathname()
-    const router = useRouter()
-    const {data, isLoading} = useFetchData({
-        url: "/api/user/validate",
-        method: "POST",
-        body: {
-            email: user?.email
-        }
-    }, Boolean(user))
-
-    console.log(user)
-    const loading = React.useMemo(()=>{
-        return isLoading || auth0IsLoading
-    },[isLoading, auth0IsLoading])
-
-    if(!loading){
-        if(!user && !noRedirectURLs.includes(pathname)) {
-            router.push("/api/auth/login")
-            return
-        }
-        if(data && data.errorMessage) throw new Error(data.errorMessage)
-        if(data && !data?.result.validated) {
-            return <ValidateUser/>
-        }
-    }
-
-    if(pathname === "/signup") return children
 
     return <UserContext>
-        <SocketContext>
-            {!isLoading && children}
-        </SocketContext>
+        {/* <SocketContext> */}
+            {children}
+        {/* </SocketContext> */}
     </UserContext>
 }
 

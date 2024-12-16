@@ -11,10 +11,13 @@ export const fetcher = (config: TAxiosConfig)=> axios({
     headers: config.headers
 }).then(res => res.data)
 
-export const useFetchData = (config: TDataFetchConfigSchema, canFetch: boolean = true)=>{
-    const { data, error, mutate, isValidating: isLoading} = useSWR<TFetchedDataSchema>(canFetch ? config: null, fetcher, {
+export const useFetchData = (params: any, action: any, canFetch: boolean = true)=>{
+    // const { data, error, mutate, isValidating: isLoading} = useSWR<TFetchedDataSchema>(canFetch ? config: null, fetcher, {
+    //     revalidateOnFocus: false
+    // })   
+    const { data, error, mutate, isValidating: isLoading} = useSWR<TFetchedDataSchema>(canFetch ? params: null, action, {
         revalidateOnFocus: false
-    })   
+    }) 
     return {data, isLoading, error, mutate}
 }
 

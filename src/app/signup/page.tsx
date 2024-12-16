@@ -11,10 +11,26 @@ import { useRouter } from 'next/navigation';
 import React from 'react'
 
 const Page = () => {
-  const router = useRouter();
 
   return <div className='w-1/2 h-full flex flex-col justify-center items-center'>
   <div className="w-[clamp(320px,100%,400px)] flex flex-col justify-center items-center">
+    <EmailPasswordComponent/>
+    <Divider
+      bgColor="bg-white"
+      text="OR CONTINUE WITH"
+      className='text-xs text-slate-400 mb-7'
+    />
+    <GoogleSignupButton/>
+  </div>
+  <h6 className="text-slate-400 text-xs">Already have an account? <Link href="/api/auth/login" className="text-primary pointer font-bold underline">Login</Link> </h6>
+
+</div>
+}
+
+const EmailPasswordComponent = ()=>{
+  const router = useRouter();
+
+  return <>
     <h1 className='font-bold text-5xl mb-3 text-center'>Signup to MAGM</h1>
     <h6 className='text-slate-400 text-xs mb-11 text-center'>Signup to the MAGM platform to perform experiments in the bio photo reactor</h6>
     <FormComponent
@@ -32,19 +48,8 @@ const Page = () => {
       <Input className='w-full' required name="email" id="email" type="email" placeholder="Email"/>
       <Input className='w-full' required name="password" id="password" type='password'  placeholder="Password"/>
     </FormComponent>
-    <Divider
-      bgColor="bg-white"
-      text="OR CONTINUE WITH"
-      className='text-xs text-slate-400 mb-7'
-    />
-    <GoogleSignupButton/>
-  </div>
-  <h6 className="text-slate-400 text-xs">Already have an account? <Link href="/api/auth/login" className="text-primary pointer font-bold underline">Login</Link> </h6>
-
-</div>
+  </>
 }
-
-
 
 const GoogleSignupButton = ()=>{
   const [submit, setSubmit] = React.useState(false)

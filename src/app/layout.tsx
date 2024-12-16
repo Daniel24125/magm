@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import "./global.css"
+import RootTemplate from "./components/RootTemplate";
+import PageContext from "@/contexts/PageContext";
+import Topbar from "./components/topbar";
+import { Toaster } from "@/components/ui/toaster";
+import Navigation from "./components/navigation";
+import UserValidation from "./components/UserValidation";
 
 
 export const metadata: Metadata = {
@@ -24,7 +30,11 @@ export default function RootLayout({
       </head>
       <body>
         <UserProvider>
-          {children}
+          <RootTemplate >
+            <UserValidation>
+              {children}
+            </UserValidation>
+          </RootTemplate>
         </UserProvider>
       </body>
 
