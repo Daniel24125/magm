@@ -27,7 +27,7 @@ const FormHandler = ({
             duration: 3000
         })
 
-        if(!error) router.push("/api/auth/login")
+        if(!error) router.push("/auth/login")
     }
     
   return <form action={handleSubmit} className={`flex flex-col gap-4 ${className}`}>

@@ -1,29 +1,12 @@
 import { UserSignupSchema } from "@/types/User";
+import { Auth0Client } from "@auth0/nextjs-auth0/server"
 
 
-// var request = require("request");
-
-// export const getUserManagementAPIToken = async ()=>{
-//     const params = {
-//         "client_id": process.env.NEXT_PUBLIC_AUTH0_MTM_CLIENT_ID,
-//         "client_secret": process.env.NEXT_PUBLIC_AUTH0_MTM_CLIENT_SECRET,
-//         "audience":"https://dev-e1nzp8b5k2q30umh.us.auth0.com/api/v2/",
-//         "grant_type":"client_credentials"
-//     }
-//     let options = { 
-//         method: 'POST',
-//         url: `${process.env.AUTH0_ISSUER_BASE_URL}/oauth/token`,
-//         headers: { 'content-type': 'application/json' },
-//         body: JSON.stringify(params)
-//     }
-
-//     return new Promise((resolve, reject)=>{
-//         request(options,  (error:any, response:any, body:any)=> {
-//           if (error || !body) reject(error)
-//             resolve(JSON.parse(body))
-//         });
-//     })
-// }
+export const auth0 = new Auth0Client({
+    domain: process.env.AUTH0_ISSUER_BASE_URL,
+    clientId: process.env.AUTH0_CLIENT_ID,
+    appBaseUrl: process.env.AUTH0_BASE_URL
+})
 
 
 export const signuUpUserToAuth0 = async (body: UserSignupSchema)=>{
@@ -52,3 +35,4 @@ export const signupWithEmailPassword = async (body: UserSignupSchema) =>{
      }
     return await signuUpUserToAuth0(body);     
 }
+

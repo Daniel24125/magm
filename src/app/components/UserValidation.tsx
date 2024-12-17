@@ -5,8 +5,7 @@ import { Input } from '@/components/ui/input'
 import PageContext from '@/contexts/PageContext'
 import { useToast } from '@/hooks/use-toast'
 import { useFetchData } from '@/utils/dataFetch'
-import { noRedirectURLs } from '@/utils/utils'
-import { useUser } from '@auth0/nextjs-auth0/client'
+import { useUser } from '@auth0/nextjs-auth0'
 import { usePathname, useRouter } from 'next/navigation'
 import React from 'react'
 import Navigation from './navigation'
@@ -15,20 +14,12 @@ import { Toaster } from '@/components/ui/toaster'
 import { validateUser } from '@/actions/userValidation'
 
 const UserValidation = ({children}:{children: React.ReactNode}) => {
-    const { user,  isLoading:auth0IsLoading } = useUser();
-    const pathname = usePathname()
-    const router = useRouter()
-    const {data, isLoading} = useFetchData("HELLO", validateUser, Boolean(user))
 
-    const loading = React.useMemo(()=>{
-        return isLoading || auth0IsLoading
-    },[isLoading, auth0IsLoading])
+    const pathname = usePathname()
+    const {data, isLoading} = useFetchData("HELLO", validateUser)
+    console.log(data)
     
-    if(!loading){
-        if(!user && !noRedirectURLs.includes(pathname)) {
-            // router.push("/api/auth/login")
-            return
-        }
+    if(!isLoading){
         if(data && data.errorMessage) throw new Error(data.errorMessage)
         if(data && !data?.result.validated) {
             return <ValidationForm/>
@@ -37,9 +28,8 @@ const UserValidation = ({children}:{children: React.ReactNode}) => {
 
     if(pathname === "/signup") return children
 
-    console.log(data)
 
-    return !loading && <PageContext>
+    return !isLoading && <PageContext>
         <div className='h-screen flex overflow-hidden'>
             <Navigation />
             <main className='w-full h-full overflow-auto px-6'>

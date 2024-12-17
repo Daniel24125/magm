@@ -1,7 +1,7 @@
 
 import useSWR from 'swr'
 import axios from 'axios'
-import { TAsyncDataFetcherConfig, TAxiosConfig, TDataFetchConfigSchema, TFetchDataSchema, TFetchedDataSchema } from '@/types/DataFetch'
+import { TAxiosConfig, TFetchedDataSchema } from '@/types/DataFetch'
 // let request = require("request")
 
 export const fetcher = (config: TAxiosConfig)=> axios({
@@ -11,10 +11,7 @@ export const fetcher = (config: TAxiosConfig)=> axios({
     headers: config.headers
 }).then(res => res.data)
 
-export const useFetchData = (params: any, action: any, canFetch: boolean = true)=>{
-    // const { data, error, mutate, isValidating: isLoading} = useSWR<TFetchedDataSchema>(canFetch ? config: null, fetcher, {
-    //     revalidateOnFocus: false
-    // })   
+export const useFetchData = (action: any, params?: any, canFetch: boolean = true)=>{ 
     const { data, error, mutate, isValidating: isLoading} = useSWR<TFetchedDataSchema>(canFetch ? params: null, action, {
         revalidateOnFocus: false
     }) 

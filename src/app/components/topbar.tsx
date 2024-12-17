@@ -23,7 +23,7 @@ const Topbar = () => {
 const AccountComponent = ()=>{
   return <div className='flex gap-5'>
     <NotificationsComponent/>
-    <AccountInfoComponent/>
+    {/* <AccountInfoComponent/> */}
   </div>
 }
 

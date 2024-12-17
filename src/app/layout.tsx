@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { UserProvider } from '@auth0/nextjs-auth0/client';
 import "./global.css"
 import RootTemplate from "./components/RootTemplate";
 import PageContext from "@/contexts/PageContext";
@@ -29,13 +28,11 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
       </head>
       <body>
-        <UserProvider>
-          <RootTemplate >
-            <UserValidation>
-              {children}
-            </UserValidation>
-          </RootTemplate>
-        </UserProvider>
+        <RootTemplate >
+          <UserValidation>
+            {children}
+          </UserValidation>
+        </RootTemplate>
       </body>
 
     </html>

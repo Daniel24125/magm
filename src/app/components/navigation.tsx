@@ -86,7 +86,7 @@ const SettingsComponent = ()=>{
       title='Settings'
     />
     <NavigationButton
-      onClick={()=>router.push("/api/auth/logout")}
+      onClick={()=>router.push("/auth/logout")}
       active={false}
       icon={ <LogOut/>}
       title='Logout'

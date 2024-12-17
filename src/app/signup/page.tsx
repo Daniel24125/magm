@@ -22,7 +22,7 @@ const Page = () => {
     />
     <GoogleSignupButton/>
   </div>
-  <h6 className="text-slate-400 text-xs">Already have an account? <Link href="/api/auth/login" className="text-primary pointer font-bold underline">Login</Link> </h6>
+  <h6 className="text-slate-400 text-xs">Already have an account? <a href="/auth/login" className="text-primary pointer font-bold underline">Login</a> </h6>
 
 </div>
 }
@@ -42,7 +42,7 @@ const EmailPasswordComponent = ()=>{
           signupMethod: "email-password"
         }
       }}
-      successFn={()=>router.push("/api/auth/login")}
+      successFn={()=>router.push("/auth/login")}
     >
       <Input className='w-full' required name="fName" id="fName"  placeholder="Full Name"/>
       <Input className='w-full' required name="email" id="email" type="email" placeholder="Email"/>
