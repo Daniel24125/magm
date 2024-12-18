@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { signupWithEmailPassword } from '../../../lib/auht0'
+import { signupWithEmailPassword } from '../../../lib/auth0'
 import { SaveToMongoDB, UserAlreadyExists } from '@/lib/mongoDB'
 import User from '@/models/User'
  

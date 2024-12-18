@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
 import "./global.css"
 import RootTemplate from "./components/RootTemplate";
-import PageContext from "@/contexts/PageContext";
-import Topbar from "./components/topbar";
-import { Toaster } from "@/components/ui/toaster";
-import Navigation from "./components/navigation";
-import UserValidation from "./components/UserValidation";
 
 
 export const metadata: Metadata = {
@@ -29,12 +24,9 @@ export default function RootLayout({
       </head>
       <body>
         <RootTemplate >
-          <UserValidation>
-            {children}
-          </UserValidation>
+          {children}
         </RootTemplate>
       </body>
-
     </html>
   );
 }

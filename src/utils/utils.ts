@@ -9,3 +9,8 @@ export const possibleVideoLinks = [
 export const sleep = (ms:number) => {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+export const parseErrorMessage = (error: typeof Error | string)=>{
+  if(error instanceof Error) return error.message
+  return error
+}

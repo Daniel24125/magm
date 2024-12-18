@@ -1,47 +1,26 @@
-"use client"
 
+import { getUser } from '@/actions/getUser'
+import { useParseActionResponse } from '@/hooks/customHooks'
 import { IUserSchema } from '@/types/User'
-import { useFetchData } from '@/utils/dataFetch'
-import { useUser } from '@auth0/nextjs-auth0'
 import React from 'react'
 
-export const UserContextProvider = React.createContext<{
+interface IUserContextType {
     user: IUserSchema | null, 
-    setUser: any
-} | null>(null)
+    setUser: React.Dispatch<React.SetStateAction<IUserSchema | null>>
+}
+
+export const UserContextProvider = React.createContext<IUserContextType>({
+    user: null, 
+    setUser: ()=>{}
+})
 
 const UserContext = ({
     children
 }:{
     children: React.ReactNode
 }) => {
-    const {user: auth0User} = useUser()
     const [user, setUser] = React.useState<IUserSchema | null>(null)
-    //@ts-ignore
-
-    
-    const {data, isLoading} = useFetchData({
-        url: "/api/user",
-        method: "POST",
-        body: {
-            email: auth0User?.email
-        }
-    }, Boolean(auth0User))
-    
-
-    React.useEffect(()=>{
-        if(!isLoading && data){
-            setUser((prev: any)=>{
-                return {
-                    ...prev, 
-                    isAuthenticated: Boolean(auth0User),
-                    picture: auth0User ? auth0User.picture : null,
-                    ...data.result
-                }
-            })
-        }
-    }, [isLoading])
-
+    useParseActionResponse(getUser, (result)=>setUser(result)) 
 
     return (<UserContextProvider.Provider value={{user, setUser}}>
         {children}
