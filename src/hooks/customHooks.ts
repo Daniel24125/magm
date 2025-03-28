@@ -1,4 +1,4 @@
-import React, { Dispatch } from "react"
+import React from "react"
 import { useToast } from "./use-toast"
 
 export const useEventListener = (
